@@ -1,5 +1,6 @@
 package me.siam.spawner;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SpawnerPlugin extends JavaPlugin {
@@ -12,8 +13,9 @@ public final class SpawnerPlugin extends JavaPlugin {
 
         instance = this;
 
-        // Initialize spawner item system
         spawnerItem = new SpawnerItem(this);
+
+        Bukkit.getPluginManager().registerEvents(new SpawnerListener(this), this);
 
         getLogger().info("SpawnerPlugin Enabled Successfully!");
     }
