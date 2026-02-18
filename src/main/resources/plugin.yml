@@ -1,0 +1,6 @@
+name: SpawnerPlugin
+version: 1.0
+main: me.siam.spawner.SpawnerPlugin
+api-version: 1.20
+author: Siam
+depend: [Vault]
