@@ -1,6 +1,19 @@
-name: SpawnerPlugin
+name: UltimateSpawner
 version: 1.0
 main: me.siam.spawner.SpawnerPlugin
-api-version: 1.20
+api-version: 1.21
 author: Siam
+website: https://github.com/yourgithub
 depend: [Vault]
+
+commands:
+  spawner:
+    description: Main spawner command
+    usage: /spawner
+    permission: spawner.use
+
+permissions:
+  spawner.use:
+    default: true
+  spawner.admin:
+    default: op
