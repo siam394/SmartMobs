@@ -24,22 +24,34 @@ public final class SpawnerPlugin extends JavaPlugin {
 
         spawnerItem = new SpawnerItem(this);
 
+        // Register Listeners
         Bukkit.getPluginManager().registerEvents(new SpawnerListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new SpawnerGUI(this), this);
 
+        // Start generator task
         new SpawnerGenerator(this);
 
         getLogger().info("SpawnerPlugin Enabled Successfully!");
     }
 
+    @Override
+    public void onDisable() {
+        getLogger().info("SpawnerPlugin Disabled!");
+    }
+
     private boolean setupEconomy() {
+
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager()
-                .getRegistration(Economy.class);
+
+        RegisteredServiceProvider<Economy> rsp =
+                getServer().getServicesManager().getRegistration(Economy.class);
+
         if (rsp == null) {
             return false;
         }
+
         econ = rsp.getProvider();
         return econ != null;
     }
