@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,20 +28,16 @@ public class SpawnerGenerator {
     }
 
     private void startTask() {
-
         new BukkitRunnable() {
             @Override
             public void run() {
-
                 for (World world : Bukkit.getWorlds()) {
-
-                    world.getLoadedChunks();
-
                     for (var chunk : world.getLoadedChunks()) {
-
-                        for (Block block : chunk.getTileEntities()) {
-
-                            if (!(block.getState() instanceof CreatureSpawner spawner)) continue;
+                        // ঠিক করা অংশ: BlockState array নিচ্ছি
+                        for (BlockState state : chunk.getTileEntities()) {
+                            Block block = state.getBlock(); // BlockState থেকে Block নিচ্ছি
+                            
+                            if (!(state instanceof CreatureSpawner spawner)) continue;
 
                             if (!spawner.getPersistentDataContainer().has(mobKey, PersistentDataType.STRING))
                                 continue;
@@ -48,6 +45,7 @@ public class SpawnerGenerator {
                             String mobName = spawner.getPersistentDataContainer().get(mobKey, PersistentDataType.STRING);
                             int stackAmount = spawner.getPersistentDataContainer().get(amountKey, PersistentDataType.INTEGER);
 
+                            // MobType ক্লাস আছে ধরে নিচ্ছি
                             MobType type = MobType.valueOf(mobName);
 
                             int generatedMobs = stackAmount * 2;
