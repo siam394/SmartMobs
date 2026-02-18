@@ -1,0 +1,13 @@
+max-stack: 100
+
+xp-per-click: 5
+
+sell-multiplier: 1.0
+
+allowed-mobs:
+  - ZOMBIE
+  - SKELETON
+  - CREEPER
+  - BLAZE
+  - IRON_GOLEM
+  - ENDERMAN
