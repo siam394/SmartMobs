@@ -31,7 +31,7 @@ public class SpawnerGUI implements Listener {
 
     public SpawnerGUI(SpawnerPlugin plugin) {
         this.plugin = plugin;
-        this.econ = SpawnerPlugin.getEconomy();
+        this.econ = SpawnerPlugin.getInstance().getEconomy()
 
         this.xpKey = new NamespacedKey(plugin, "storedXP");
         this.lootKey = new NamespacedKey(plugin, "storedLoot");
