@@ -1,9 +1,7 @@
-name: UltimateSpawner
+name: SmartSpawner
 version: 1.0
 main: me.siam.spawner.SpawnerPlugin
 api-version: 1.21
-author: Siam
-website: https://github.com/yourgithub
 depend: [Vault]
 
 commands:
@@ -15,5 +13,3 @@ commands:
 permissions:
   spawner.use:
     default: true
-  spawner.admin:
-    default: op
