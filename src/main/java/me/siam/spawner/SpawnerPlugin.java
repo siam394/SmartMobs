@@ -14,25 +14,25 @@ public class SpawnerPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        // Vault setup
+        // Setup Vault Economy
         if (!setupEconomy()) {
-            getLogger().severe("Vault or Economy not found! Plugin disabling...");
+            getLogger().severe("Vault or Economy provider not found! Disabling plugin...");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        // Command register
+        // Register Command
         getCommand("spawner").setExecutor(new SpawnerCommand(this));
 
-        // Listener register
+        // Register Events
         Bukkit.getPluginManager().registerEvents(new SpawnerListener(this), this);
 
-        getLogger().info("SpawnerPlugin Enabled Successfully!");
+        getLogger().info("SmartSpawner Enabled Successfully!");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("SpawnerPlugin Disabled!");
+        getLogger().info("SmartSpawner Disabled!");
     }
 
     public static SpawnerPlugin getInstance() {
@@ -47,10 +47,14 @@ public class SpawnerPlugin extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+
+        RegisteredServiceProvider<Economy> rsp =
+                getServer().getServicesManager().getRegistration(Economy.class);
+
         if (rsp == null) {
             return false;
         }
+
         economy = rsp.getProvider();
         return economy != null;
     }
