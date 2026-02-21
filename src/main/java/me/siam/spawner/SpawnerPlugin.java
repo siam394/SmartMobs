@@ -1,35 +1,31 @@
 package me.siam.spawner;
 
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
-public final class SpawnerPlugin extends JavaPlugin {
+public class SpawnerPlugin extends JavaPlugin {
 
     private static SpawnerPlugin instance;
-    private SpawnerItem spawnerItem;
-    private static Economy econ;
+    private Economy economy;
 
     @Override
     public void onEnable() {
-
         instance = this;
 
+        // Vault setup
         if (!setupEconomy()) {
-            getLogger().severe("Vault not found! Disabling plugin...");
+            getLogger().severe("Vault or Economy not found! Plugin disabling...");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        spawnerItem = new SpawnerItem(this);
+        // Command register
+        getCommand("spawner").setExecutor(new SpawnerCommand(this));
 
-        // Register Listeners
+        // Listener register
         Bukkit.getPluginManager().registerEvents(new SpawnerListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new SpawnerGUI(this), this);
-
-        // Start generator task
-        new SpawnerGenerator(this);
 
         getLogger().info("SpawnerPlugin Enabled Successfully!");
     }
@@ -39,32 +35,23 @@ public final class SpawnerPlugin extends JavaPlugin {
         getLogger().info("SpawnerPlugin Disabled!");
     }
 
-    private boolean setupEconomy() {
-
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-
-        RegisteredServiceProvider<Economy> rsp =
-                getServer().getServicesManager().getRegistration(Economy.class);
-
-        if (rsp == null) {
-            return false;
-        }
-
-        econ = rsp.getProvider();
-        return econ != null;
-    }
-
-    public static Economy getEconomy() {
-        return econ;
-    }
-
     public static SpawnerPlugin getInstance() {
         return instance;
     }
 
-    public SpawnerItem getSpawnerItem() {
-        return spawnerItem;
+    public Economy getEconomy() {
+        return economy;
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
     }
 }
